@@ -206,12 +206,17 @@ window.test = function()
 
         if (typeof collision !== 'undefined') {
             console.log('又撞上:', collision); // 左顺，右逆
-            let side = [...left, ...right].map(function(point) {
-                return point.join('-');
+            let zuo = left.findIndex(function(apex) {
+                return corner.join('-') == apex.join('-');
             });
-            corner = rect.find(function(apex) {
-                return !side.includes(apex.join('-'));
+            let idx = rect.findIndex(function(apex) {
+                return corner.join('-') == apex.join('-');
             });
+            if (zuo >= 0) {
+                corner = rect[(idx == 0 ? 3 : idx - 1)];
+            } else {
+                corner = rect[idx+1];
+            }
             iPath.push(corner);
         }
 
