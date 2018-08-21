@@ -5,13 +5,26 @@ const Geometry = {
         return (line[0][0] - point[0]) * (line[1][1] - point[1]) - (line[0][1] - point[1]) * (line[1][0] - point[0]);
     },
     // 判断两条线是否相交
-    isIntersect: (line = [[0,0], [0,0]], side = [[0,0], [0,0]]) => {
-        return (
-            Math.min(line[0][0], line[1][0]) <= Math.max(side[0][0], side[1][0]) &&
-            Math.min(side[0][1], side[1][1]) <= Math.max(line[0][1], line[1][1]) &&
-            Math.min(side[0][0], side[1][0]) <= Math.max(line[0][0], line[1][0]) &&
-            Math.min(line[0][1], line[1][1]) <= Math.max(side[0][1], side[1][1])
-        );
+    isIntersect: function(line = [[0,0], [0,0]], side = [[0,0], [0,0]]) {
+        if (Math.max(line[0][0], line[1][0]) < Math.min(side[0][0], side[1][0])) {
+            return false;
+        }
+        if (Math.max(line[0][1], line[1][1]) < Math.min(side[0][1], side[1][1])) {
+            return false;
+        }
+        if (Math.max(side[0][0], side[1][0]) < Math.min(line[0][0], line[1][0])) {
+            return false;
+        }
+        if (Math.max(side[0][1], side[1][1]) < Math.min(line[0][1], line[1][1])) {
+            return false;
+        }
+        if (this.whichSide(side[0], line) * this.whichSide(side[1], line) > 0) {
+            return false;
+        }
+        if (this.whichSide(line[0], side) * this.whichSide(line[1], side) > 0) {
+            return false;
+        }
+        return true;
     },
     // 计算线的点集合，digital differential analyzer 算法
     dda: (a, b) => {
@@ -55,10 +68,12 @@ const Geometry = {
             copy.splice(index, 1);
             for (let i=0; i<copy.length; i++) {
                 let side = [copy[i], copy[i+1] ? copy[i+1] : copy[0]];
-                if (!Geometry.isIntersect(line, side)) {
-                    return true;
+                if (Geometry.isIntersect(line, side)) {
+                    return false;
                 }
             }
+
+            return true;
         });
     },
     // 取左右两组最远的点，再取离起点最近的点

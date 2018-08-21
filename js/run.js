@@ -219,7 +219,7 @@ window.test = function()
     }
 
     run(
-        [parseInt(iPlace.start.dataset.x), parseInt(iPlace.start.dataset.y)],
+        [parseInt(iPlace.start.dataset.x) + 16, parseInt(iPlace.start.dataset.y) + 30],
         [parseInt(iPlace.end.dataset.x), parseInt(iPlace.end.dataset.y)]
     );
 
@@ -227,6 +227,7 @@ window.test = function()
     iCanvas.width = iMap.offsetWidth -2;
     iCanvas.height = iMap.offsetHeight - 2;
     iCanvas.style.position = 'absolute';
+    iCanvas.style.zIndex = iHinders.length + 1;
     iCanvas.style.top = 0;
     iCanvas.style.left = 0;
     iMap.appendChild(iCanvas);
