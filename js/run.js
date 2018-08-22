@@ -149,9 +149,6 @@ window.test = function()
     function run(from, to) {
         // 当前起点到终点的坐标点集合
         let line = Geometry.dda(from, to);
-        // line.forEach(function(point) {
-        //     drawPathPoint(point);
-        // });
 
          // 是哪个哭夭的障碍物
         let hinder_index = -1;

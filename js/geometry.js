@@ -104,5 +104,23 @@ const Geometry = {
         });
 
         return apexs[distance.indexOf(Math.min(...distance))];
+    },
+    // 设置偏移量
+    setOffset: (apex, rect, size = 2) => {
+        let idx = rect.findIndex(function(point) {
+            return apex.join('-') == point.join('-');
+        });
+        if (idx == 0) {
+            return [apex[0] - 2, apex[1] - 2];
+        }
+        if (idx == 1) {
+            return [apex[0] + 2, apex[1] - 2];
+        }
+        if (idx == 2) {
+            return [apex[0] + 2, apex[1] + 2];
+        }
+        if (idx == 3) {
+            return [apex[0] - 2, apex[1] + 2];
+        }
     }
 };
